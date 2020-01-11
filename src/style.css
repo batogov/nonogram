@@ -1,0 +1,16 @@
+.cell {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+}
+
+.field {
+    border: 1px solid black;
+    background: rgb(220, 220, 220);
+    display: grid;
+    grid-template-rows: repeat(5, 20px);
+    grid-template-columns: repeat(5, 20px);
+    width: fit-content;
+    row-gap: 1px;
+    column-gap: 1px;
+}

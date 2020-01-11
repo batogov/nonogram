@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "lib": [
+            "dom",
+            "es2017",
+        ],
+    }
+}
