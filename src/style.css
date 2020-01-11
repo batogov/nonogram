@@ -4,6 +4,14 @@
     background-color: white;
 }
 
+.cell_colored {
+    background-color: black;
+}
+
+.cell_crossed {
+    background-color: rgb(235, 235, 235);
+}
+
 .field {
     border: 1px solid black;
     background: rgb(220, 220, 220);
