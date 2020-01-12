@@ -12,11 +12,68 @@ export class View implements BasicView {
         this.form = form;
     }
 
-    public render(field: Field) {
+    getAllVerticalSequencesElement(verticalSequences: Array<number[]>) {
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 0; i < verticalSequences.length; i++) {
+            const element = document.createElement('div');
+            element.classList.add('vertical-seqs');
+
+            for (let j = 0; j < verticalSequences[i].length; j++) {
+                const item = document.createElement('span');
+
+                item.classList.add('vertical-seqs__item');
+                item.textContent = String(verticalSequences[i][j]);
+
+                element.appendChild(item);
+            }
+
+            fragment.appendChild(element);
+        }
+
+        return fragment;
+    }
+
+    getHorizontalSequencesElement(i: number, horizontalSequences: Array<number[]>) {
+        const element = document.createElement('div');
+        element.classList.add('horizontal-seqs');
+
+        for (let j = 0; j < horizontalSequences[i].length; j++) {
+            const item = document.createElement('span');
+
+            item.classList.add('horizontal-seqs__item');
+            item.textContent = String(horizontalSequences[i][j]);
+
+            element.appendChild(item);
+        }
+
+        return element;
+    }
+
+    public render({
+        field,
+        horizontalSequences,
+        verticalSequences
+    }: {
+        field: Field,
+        horizontalSequences: Array<number[]>,
+        verticalSequences: Array<number[]>
+    }) {
         if (this.element) {
             this.element.innerHTML = '';
 
+            // Render corner cell
+            const cornerCell = document.createElement('div');
+            cornerCell.classList.add('corner-cell');
+            this.element.appendChild(cornerCell);
+
+            // Render vertical sequences row
+            this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences));
+
             for (let i = 0; i < field.length; i++) {
+                // Render horizontal sequences cell
+                this.element.appendChild(this.getHorizontalSequencesElement(i, horizontalSequences));
+
                 for (let j = 0; j < field[0].length; j++) {
                     const cell = document.createElement('div');
 

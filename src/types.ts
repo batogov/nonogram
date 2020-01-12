@@ -6,7 +6,16 @@ export type Field = Array<Cell[]>;
 export type Cell = 'colored' | 'crossed' | 'empty';
 
 export interface BasicView {
-    render(field: Field): void;
+    render({
+        field,
+        horizontalSequences,
+        verticalSequences
+    }: {
+        field: Field,
+        horizontalSequences: Array<number[]>,
+        verticalSequences: Array<number[]>,
+    }): void;
+
     initHandlers({
         handleCellClick,
         handleModeChange
