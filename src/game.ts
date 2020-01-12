@@ -53,6 +53,7 @@ export class Game {
     private field: Field;
 
     private mode: Mode = 'coloring';
+    private lifeCounter: number = 3;
 
     private verticalSequences: Array<number[]>;
     private horizontalSequences: Array<number[]>;
@@ -70,24 +71,51 @@ export class Game {
         this.horizontalSequences = getAllHorizontalSequences(picture);
     }
 
+    private render() {
+        this.view.render({
+            field: this.field,
+            lifeCounter: this.lifeCounter,
+            horizontalSequences: this.horizontalSequences,
+            verticalSequences: this.verticalSequences
+        });
+    }
+
+    private handleNewGameButtonClick() {
+        this.lifeCounter = 3;
+        this.field = generateEmptyField(this.picture.length, this.picture[0].length);
+
+        this.view.renderEndGame(false);
+        this.init();
+    }
+
     private handleCellClick(i: number, j: number) {
-        if (this.field[i][j] !== 'empty') {
+        if (this.field[i][j] !== 'empty' || this.lifeCounter === 0) {
             return;
         }
 
         if (this.mode === 'coloring') {
-            this.field[i][j] = 'colored';
+            if (this.picture[i][j] === 1) {
+                this.field[i][j] = 'colored';
+            } else {
+                this.field[i][j] = 'crossed';
+                this.lifeCounter -= 1;
+            }
         }
 
         if (this.mode === 'crossing') {
-            this.field[i][j] = 'crossed';
+            if (this.picture[i][j] !== 1) {
+                this.field[i][j] = 'crossed';
+            } else {
+                this.field[i][j] = 'colored';
+                this.lifeCounter -= 1;
+            }
         }
 
-        this.view.render({
-            field: this.field,
-            horizontalSequences: this.horizontalSequences,
-            verticalSequences: this.verticalSequences
-        });
+        if (this.lifeCounter === 0) {
+            this.view.renderEndGame(true);
+        }
+
+        this.render();
     }
 
     private handleModeChange(mode: Mode) {
@@ -98,12 +126,9 @@ export class Game {
         this.view.initHandlers({
             handleCellClick: (i, j) => this.handleCellClick(i, j),
             handleModeChange: (mode) => this.handleModeChange(mode),
+            handleNewGameButtonClick: () => this.handleNewGameButtonClick(),
         });
 
-        this.view.render({
-            field: this.field,
-            horizontalSequences: this.horizontalSequences,
-            verticalSequences: this.verticalSequences
-        });
+        this.render();
     }
 }

@@ -3,13 +3,19 @@ import { BasicView, Field, Mode } from './types';
 export class View implements BasicView {
     private element: Element | null = null;
     private form: Element | null = null;
+    private lifeCounterElement: Element | null = null;
+    private endGameElement: Element | null = null;
 
     constructor(
         element: Element | null,
         form: Element | null,
+        lifeCounterElement: Element | null,
+        endGameElement: Element | null,
     ) {
         this.element = element;
         this.form = form;
+        this.lifeCounterElement = lifeCounterElement;
+        this.endGameElement = endGameElement;
     }
 
     getAllVerticalSequencesElement(verticalSequences: Array<number[]>) {
@@ -50,15 +56,31 @@ export class View implements BasicView {
         return element;
     }
 
+    public renderEndGame(isEndGameShown: boolean) {
+        if (this.endGameElement) {
+            if (isEndGameShown) {
+                this.endGameElement.classList.remove('end-game_hidden');
+            } else {
+                this.endGameElement.classList.add('end-game_hidden');
+            }
+        }
+    }
+
     public render({
         field,
         horizontalSequences,
-        verticalSequences
+        verticalSequences,
+        lifeCounter,
     }: {
         field: Field,
         horizontalSequences: Array<number[]>,
-        verticalSequences: Array<number[]>
+        verticalSequences: Array<number[]>,
+        lifeCounter: number,
     }) {
+        if (this.lifeCounterElement) {
+            this.lifeCounterElement.textContent = `Lives: ${lifeCounter}`;
+        }
+
         if (this.element) {
             this.element.innerHTML = '';
 
@@ -99,9 +121,11 @@ export class View implements BasicView {
     public initHandlers({
         handleCellClick,
         handleModeChange,
+        handleNewGameButtonClick,
     }: {
         handleCellClick: (i: number, j: number) => void,
         handleModeChange: (mode: Mode) => void,
+        handleNewGameButtonClick: () => void,
     }) {
         if (this.element) {
             this.element.addEventListener('click', (event: Event) => {
@@ -135,6 +159,16 @@ export class View implements BasicView {
                     handleModeChange('crossing');
                 }
             });
+        }
+
+        if (this.endGameElement) {
+            const newGameButton = this.endGameElement.querySelector('button');
+
+            if (newGameButton) {
+                newGameButton.addEventListener('click', () => {
+                    handleNewGameButtonClick();
+                });
+            }
         }
     }
 }
