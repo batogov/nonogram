@@ -5,4 +5,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{}],"9B6d":[function(require,module,exports) {
 "use strict";exports.__esModule=!0;var e=require("./game"),r=require("./view"),t=document.querySelector("#field"),u=document.querySelector("#form"),o=document.querySelector("#life-counter"),c=document.querySelector("#end-game"),i=[[0,1,1,0,0],[0,1,0,1,0],[1,1,1,1,1],[1,1,1,0,1],[0,1,1,0,0]],n=new r.View(t,u,o,c),m=new e.Game(i,n);m.init();
 },{"./game":"dgAm","./view":"CBC0"}]},{},["9B6d"], null)
-//# sourceMappingURL=/src.1dc12391.js.map
+//# sourceMappingURL=src.1dc12391.js.map
