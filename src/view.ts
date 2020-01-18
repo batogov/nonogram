@@ -1,4 +1,4 @@
-import { BasicView, Field, Mode } from './types';
+import { BasicView, State, Mode } from './types';
 
 export class View implements BasicView {
     private element: Element | null = null;
@@ -18,12 +18,19 @@ export class View implements BasicView {
         this.endGameElement = endGameElement;
     }
 
-    getAllVerticalSequencesElement(verticalSequences: Array<number[]>) {
+    getAllVerticalSequencesElement(verticalSequences: Array<number[]>, state: State) {
         const fragment = document.createDocumentFragment();
 
         for (let i = 0; i < verticalSequences.length; i++) {
             const element = document.createElement('div');
             element.classList.add('vertical-seqs');
+
+            const sequencesSum = verticalSequences[i].reduce((sum, current) => sum + current, 0);
+            const coloredCellCount = state.reduce((sum, row) => row[i] === 'colored' ? sum + 1 : sum, 0);
+
+            if (sequencesSum === coloredCellCount) {
+                element.classList.add('vertical-seqs_done');
+            }
 
             for (let j = 0; j < verticalSequences[i].length; j++) {
                 const item = document.createElement('span');
@@ -40,9 +47,16 @@ export class View implements BasicView {
         return fragment;
     }
 
-    getHorizontalSequencesElement(i: number, horizontalSequences: Array<number[]>) {
+    getHorizontalSequencesElement(i: number, horizontalSequences: Array<number[]>, state: State) {
         const element = document.createElement('div');
         element.classList.add('horizontal-seqs');
+
+        const sequencesSum = horizontalSequences[i].reduce((sum, current) => sum + current, 0);
+        const coloredCellCount = state[i].reduce((sum, current) => current === 'colored' ? sum + 1 : sum, 0);
+
+        if (sequencesSum === coloredCellCount) {
+            element.classList.add('horizontal-seqs_done');
+        }
 
         for (let j = 0; j < horizontalSequences[i].length; j++) {
             const item = document.createElement('span');
@@ -67,12 +81,12 @@ export class View implements BasicView {
     }
 
     public render({
-        field,
+        state,
         horizontalSequences,
         verticalSequences,
         lifeCounter,
     }: {
-        field: Field,
+        state: State,
         horizontalSequences: Array<number[]>,
         verticalSequences: Array<number[]>,
         lifeCounter: number,
@@ -90,22 +104,22 @@ export class View implements BasicView {
             this.element.appendChild(cornerCell);
 
             // Render vertical sequences row
-            this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences));
+            this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences, state));
 
-            for (let i = 0; i < field.length; i++) {
+            for (let i = 0; i < state.length; i++) {
                 // Render horizontal sequences cell
-                this.element.appendChild(this.getHorizontalSequencesElement(i, horizontalSequences));
+                this.element.appendChild(this.getHorizontalSequencesElement(i, horizontalSequences, state));
 
-                for (let j = 0; j < field[0].length; j++) {
+                for (let j = 0; j < state[0].length; j++) {
                     const cell = document.createElement('div');
 
                     cell.classList.add('cell');
 
-                    if (field[i][j] === 'colored') {
+                    if (state[i][j] === 'colored') {
                         cell.classList.add('cell_colored');
                     }
 
-                    if (field[i][j] === 'crossed') {
+                    if (state[i][j] === 'crossed') {
                         cell.classList.add('cell_crossed');
                     }
 

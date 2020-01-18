@@ -1,6 +1,6 @@
-import { BasicView, Field, Picture, Mode } from './types';
+import { BasicView, Field, State, Picture, Mode } from './types';
 
-const generateEmptyField: (rows: number, cols: number) => Field = (rows, cols) => {
+const generateEmptyState: (rows: number, cols: number) => State = (rows, cols) => {
     return new Array(rows).fill(0).map(() => new Array(cols).fill('empty'));
 }
 
@@ -24,21 +24,21 @@ export const getSequences: (array: number[]) => number[] = (array) => {
     return result.length === 0 ? [0] : result;
 }
 
-export const getAllHorizontalSequences: (picture: Picture) => Array<number[]> = (picture) => {
+export const getAllHorizontalSequences: (field: Field) => Array<number[]> = (field) => {
     const sequences = [];
 
-    for (let i = 0; i < picture.length; i++) {
-        sequences.push(getSequences(picture[i]));
+    for (let i = 0; i < field.length; i++) {
+        sequences.push(getSequences(field[i]));
     }
 
     return sequences;
 }
 
-export const getAllVerticalSequences: (picture: Picture) => Array<number[]> = (picture) => {
+export const getAllVerticalSequences: (field: Field) => Array<number[]> = (field) => {
     const sequences = [];
 
-    for (let j = 0; j < picture[0].length; j++) {
-        const column = picture.map(row => row[j]);
+    for (let j = 0; j < field[0].length; j++) {
+        const column = field.map(row => row[j]);
 
         sequences.push(getSequences(column));
     }
@@ -51,6 +51,7 @@ export class Game {
     private view: BasicView;
 
     private field: Field;
+    private state: State;
 
     private mode: Mode = 'coloring';
     private lifeCounter: number = 3;
@@ -60,20 +61,23 @@ export class Game {
 
     constructor(
         picture: Picture,
+        field: Field,
         view: BasicView,
     ) {
         this.picture = picture;
+        this.field = field;
+
+        this.state = generateEmptyState(field.length, field[0].length);
+
         this.view = view;
 
-        this.field = generateEmptyField(picture.length, picture[0].length);
-
-        this.verticalSequences = getAllVerticalSequences(picture);
-        this.horizontalSequences = getAllHorizontalSequences(picture);
+        this.verticalSequences = getAllVerticalSequences(field);
+        this.horizontalSequences = getAllHorizontalSequences(field);
     }
 
     private render() {
         this.view.render({
-            field: this.field,
+            state: this.state,
             lifeCounter: this.lifeCounter,
             horizontalSequences: this.horizontalSequences,
             verticalSequences: this.verticalSequences
@@ -82,31 +86,31 @@ export class Game {
 
     private handleNewGameButtonClick() {
         this.lifeCounter = 3;
-        this.field = generateEmptyField(this.picture.length, this.picture[0].length);
+        this.state = generateEmptyState(this.field.length, this.field[0].length);
 
         this.view.renderEndGame(false);
         this.init();
     }
 
     private handleCellClick(i: number, j: number) {
-        if (this.field[i][j] !== 'empty' || this.lifeCounter === 0) {
+        if (this.state[i][j] !== 'empty' || this.lifeCounter === 0) {
             return;
         }
 
         if (this.mode === 'coloring') {
-            if (this.picture[i][j] === 1) {
-                this.field[i][j] = 'colored';
+            if (this.field[i][j] === 1) {
+                this.state[i][j] = 'colored';
             } else {
-                this.field[i][j] = 'crossed';
+                this.state[i][j] = 'crossed';
                 this.lifeCounter -= 1;
             }
         }
 
         if (this.mode === 'crossing') {
-            if (this.picture[i][j] !== 1) {
-                this.field[i][j] = 'crossed';
+            if (this.field[i][j] !== 1) {
+                this.state[i][j] = 'crossed';
             } else {
-                this.field[i][j] = 'colored';
+                this.state[i][j] = 'colored';
                 this.lifeCounter -= 1;
             }
         }

@@ -51,6 +51,11 @@ body {
     padding: 0 6px;
 }
 
+.vertical-seqs_done,
+.horizontal-seqs_done {
+    color: rgb(165, 165, 165);
+}
+
 .horizontal-seqs__item:not(:last-child) {
     padding-right: 4px;
 }
