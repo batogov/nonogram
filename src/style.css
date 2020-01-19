@@ -2,11 +2,13 @@ body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.end-game {
+.end-game,
+.victory {
     display: block;
 }
 
-.end-game_hidden {
+.end-game_hidden,
+.victory_hidden {
     display: none;
 }
 

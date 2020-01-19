@@ -14,7 +14,17 @@ export interface BasicView {
         verticalSequences: Array<number[]>,
     }): void;
 
+    renderPicture(params: {
+        state: State,
+        picture: Picture,
+        lifeCounter: number,
+        horizontalSequences: Array<number[]>,
+        verticalSequences: Array<number[]>,
+    }): void;
+
     renderEndGame(isEndGameShown: boolean): void;
+
+    renderVictoryView(isVictoryViewShown: boolean): void;
 
     initHandlers(params: {
         handleCellClick: (i: number, j: number) => void,

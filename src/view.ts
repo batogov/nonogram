@@ -1,21 +1,24 @@
-import { BasicView, State, Mode } from './types';
+import { BasicView, State, Mode, Picture } from './types';
 
 export class View implements BasicView {
     private element: Element | null = null;
     private form: Element | null = null;
     private lifeCounterElement: Element | null = null;
     private endGameElement: Element | null = null;
+    private victoryElement: Element | null = null;
 
     constructor(
         element: Element | null,
         form: Element | null,
         lifeCounterElement: Element | null,
         endGameElement: Element | null,
+        victoryElement: Element | null,
     ) {
         this.element = element;
         this.form = form;
         this.lifeCounterElement = lifeCounterElement;
         this.endGameElement = endGameElement;
+        this.victoryElement = victoryElement;
     }
 
     getAllVerticalSequencesElement(verticalSequences: Array<number[]>, state: State) {
@@ -70,12 +73,60 @@ export class View implements BasicView {
         return element;
     }
 
+    getCornerCell() {
+        const cornerCell = document.createElement('div');
+        cornerCell.classList.add('corner-cell');
+
+        return cornerCell;
+    }
+
     public renderEndGame(isEndGameShown: boolean) {
         if (this.endGameElement) {
             if (isEndGameShown) {
                 this.endGameElement.classList.remove('end-game_hidden');
             } else {
                 this.endGameElement.classList.add('end-game_hidden');
+            }
+        }
+    }
+
+    public renderVictoryView(isVictoryViewShown: boolean) {
+        if (this.victoryElement) {
+            if (isVictoryViewShown) {
+                this.victoryElement.classList.remove('victory_hidden');
+            } else {
+                this.victoryElement.classList.add('victory_hidden');
+            }
+        }
+    }
+
+    public renderPicture({
+        picture,
+        state,
+        horizontalSequences,
+        verticalSequences,
+    }: {
+        picture: Picture,
+        state: State,
+        horizontalSequences: Array<number[]>,
+        verticalSequences: Array<number[]>,
+    }) {
+        if (this.element) {
+            this.element.innerHTML = '';
+
+            this.element.appendChild(this.getCornerCell());
+            this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences, state));
+
+            for (let i = 0; i < state.length; i++) {
+                this.element.appendChild(this.getHorizontalSequencesElement(i, horizontalSequences, state));
+
+                for (let j = 0; j < state[0].length; j++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.style.backgroundColor = picture[i][j];
+
+                    this.element.appendChild(cell);
+                }
             }
         }
     }
@@ -98,10 +149,7 @@ export class View implements BasicView {
         if (this.element) {
             this.element.innerHTML = '';
 
-            // Render corner cell
-            const cornerCell = document.createElement('div');
-            cornerCell.classList.add('corner-cell');
-            this.element.appendChild(cornerCell);
+            this.element.appendChild(this.getCornerCell());
 
             // Render vertical sequences row
             this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences, state));
@@ -112,7 +160,6 @@ export class View implements BasicView {
 
                 for (let j = 0; j < state[0].length; j++) {
                     const cell = document.createElement('div');
-
                     cell.classList.add('cell');
 
                     if (state[i][j] === 'colored') {

@@ -84,12 +84,34 @@ export class Game {
         });
     }
 
+    private renderPicture() {
+        this.view.renderPicture({
+            picture: this.picture,
+            state: this.state,
+            lifeCounter: this.lifeCounter,
+            horizontalSequences: this.horizontalSequences,
+            verticalSequences: this.verticalSequences
+        })
+    }
+
     private handleNewGameButtonClick() {
         this.lifeCounter = 3;
         this.state = generateEmptyState(this.field.length, this.field[0].length);
 
         this.view.renderEndGame(false);
         this.init();
+    }
+
+    private checkWin() {
+        for (let i = 0; i < this.field.length; i++) {
+            for (let j = 0; j < this.field[0].length; j++) {
+                if (this.field[i][j] === 1 && this.state[i][j] !== 'colored') {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private handleCellClick(i: number, j: number) {
@@ -119,7 +141,12 @@ export class Game {
             this.view.renderEndGame(true);
         }
 
-        this.render();
+        if (this.checkWin()) {
+            this.view.renderVictoryView(true);
+            this.renderPicture();
+        } else {
+            this.render();
+        }
     }
 
     private handleModeChange(mode: Mode) {

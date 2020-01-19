@@ -6,6 +6,7 @@ const element = document.querySelector('#field');
 const formElement = document.querySelector('#form');
 const lifeCounterElement = document.querySelector('#life-counter');
 const endGameElement = document.querySelector('#end-game');
+const victoryElement = document.querySelector('#victory')
 
 const data = {
     'lion': {
@@ -26,7 +27,7 @@ const data = {
     }
 };
 
-const view = new View(element, formElement, lifeCounterElement, endGameElement);
+const view = new View(element, formElement, lifeCounterElement, endGameElement, victoryElement);
 const game = new Game(data['lion'].picture, data['lion'].field, view);
 
 game.init();
