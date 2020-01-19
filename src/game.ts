@@ -1,4 +1,4 @@
-import { BasicView, Field, State, Picture, Mode } from './types';
+import { BasicView, Field, State, Picture, Mode, Data } from './types';
 
 const generateEmptyState: (rows: number, cols: number) => State = (rows, cols) => {
     return new Array(rows).fill(0).map(() => new Array(cols).fill('empty'));
@@ -47,11 +47,14 @@ export const getAllVerticalSequences: (field: Field) => Array<number[]> = (field
 }
 
 export class Game {
-    private picture: Picture;
-    private view: BasicView;
+    private level: number;
+    private data: Data;
 
-    private field: Field;
     private state: State;
+    private field: Field;
+    private picture: Picture;
+
+    private view: BasicView;
 
     private mode: Mode = 'coloring';
     private lifeCounter: number = 3;
@@ -60,16 +63,24 @@ export class Game {
     private horizontalSequences: Array<number[]>;
 
     constructor(
-        picture: Picture,
-        field: Field,
+        data: Data,
         view: BasicView,
     ) {
-        this.picture = picture;
-        this.field = field;
+        this.data = data;
+        this.level = 0;
 
-        this.state = generateEmptyState(field.length, field[0].length);
+        this.setLevel(0, data);
 
         this.view = view;
+    }
+
+    private setLevel(level: number, data: Data) {
+        const picture = data[level].picture;
+        const field = data[level].field;
+
+        this.field = field;
+        this.picture = picture;
+        this.state = generateEmptyState(field.length, field[0].length);
 
         this.verticalSequences = getAllVerticalSequences(field);
         this.horizontalSequences = getAllHorizontalSequences(field);
@@ -100,6 +111,14 @@ export class Game {
 
         this.view.renderEndGame(false);
         this.init();
+    }
+
+    private handleNextLevelButtonClick() {
+        if (this.level + 1 < this.data.length) {
+            this.level++;
+            this.setLevel(this.level, this.data);
+            this.render();
+        }
     }
 
     private checkWin() {
@@ -158,6 +177,7 @@ export class Game {
             handleCellClick: (i, j) => this.handleCellClick(i, j),
             handleModeChange: (mode) => this.handleModeChange(mode),
             handleNewGameButtonClick: () => this.handleNewGameButtonClick(),
+            handleNextLevelButtonClick: () => this.handleNextLevelButtonClick(),
         });
 
         this.render();

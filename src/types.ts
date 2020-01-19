@@ -6,6 +6,8 @@ export type Field = Array<number[]>;
 export type State = Array<Cell[]>;
 export type Cell = 'colored' | 'crossed' | 'empty';
 
+export type Data = Array<{ title: string, picture: Picture, field: Field }>
+
 export interface BasicView {
     render(params: {
         state: State,
@@ -30,6 +32,7 @@ export interface BasicView {
         handleCellClick: (i: number, j: number) => void,
         handleModeChange: (mode: Mode) => void,
         handleNewGameButtonClick: () => void,
+        handleNextLevelButtonClick: () => void,
     }): void;
 }
 

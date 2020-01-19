@@ -183,10 +183,12 @@ export class View implements BasicView {
         handleCellClick,
         handleModeChange,
         handleNewGameButtonClick,
+        handleNextLevelButtonClick,
     }: {
         handleCellClick: (i: number, j: number) => void,
         handleModeChange: (mode: Mode) => void,
         handleNewGameButtonClick: () => void,
+        handleNextLevelButtonClick: () => void,
     }) {
         if (this.element) {
             this.element.addEventListener('click', (event: Event) => {
@@ -229,6 +231,16 @@ export class View implements BasicView {
                 newGameButton.addEventListener('click', () => {
                     handleNewGameButtonClick();
                 });
+            }
+        }
+
+        if (this.victoryElement) {
+            const nextLevelButton = this.victoryElement.querySelector('button');
+
+            if (nextLevelButton) {
+                nextLevelButton.addEventListener('click', () => {
+                    handleNextLevelButtonClick();
+                })
             }
         }
     }
