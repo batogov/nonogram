@@ -104,6 +104,7 @@ main {
 
 .mode-button {
     display: flex;
+    outline: none;
     padding: 0;
     height: 40px;
     border-radius: 20px;
@@ -121,7 +122,6 @@ main {
 
 .mode-button__item_active {
     background-color: white;
-    box-shadow: 2px 2px 4px 0px rgba(50, 50, 50, 0.20);
     border-radius: 19px;
 }
 
@@ -132,11 +132,19 @@ main {
     background-size: 60%;
 }
 
+.mode-button__item_square.mode-button__item_active {
+    box-shadow: -2px 2px 6px 0px rgba(50, 50, 50, 0.20);
+}
+
 .mode-button__item_cross {
     background-image: url('./icons/cross.svg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 60%;
+}
+
+.mode-button__item_cross.mode-button__item_active {
+    box-shadow: 2px 2px 6px 0px rgba(50, 50, 50, 0.20);
 }
 
 .life-counter {
@@ -160,7 +168,7 @@ main {
     background-size: 90%;
 }
 
-.form {
+.footer {
     margin-top: 20px;
     display: flex;
     justify-content: center;

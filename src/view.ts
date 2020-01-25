@@ -2,20 +2,20 @@ import { BasicView, State, Mode, Picture } from './types';
 
 export class View implements BasicView {
     private element: Element | null = null;
-    private form: Element | null = null;
+    private buttonElement: Element | null = null;
     private lifeCounterElement: Element | null = null;
     private endGameElement: Element | null = null;
     private victoryElement: Element | null = null;
 
     constructor(
         element: Element | null,
-        form: Element | null,
+        buttonElement: Element | null,
         lifeCounterElement: Element | null,
         endGameElement: Element | null,
         victoryElement: Element | null,
     ) {
         this.element = element;
-        this.form = form;
+        this.buttonElement = buttonElement;
         this.lifeCounterElement = lifeCounterElement;
         this.endGameElement = endGameElement;
         this.victoryElement = victoryElement;
@@ -208,18 +208,32 @@ export class View implements BasicView {
             });
         }
 
-        if (this.form) {
-            this.form.addEventListener('change', (event: Event) => {
-                if (!(event.target instanceof HTMLInputElement)) {
+        if (this.buttonElement) {
+
+            const cross = this.buttonElement.querySelector('#cross');
+            const square = this.buttonElement.querySelector('#square');
+
+            this.buttonElement.addEventListener('click', (event: Event) => {
+                if (!(event.currentTarget instanceof HTMLButtonElement)) {
                     return;
                 }
 
-                if (event.target.value === 'coloring') {
-                    handleModeChange('coloring');
-                }
-
-                if (event.target.value === 'crossing') {
+                if (event.currentTarget.getAttribute('aria-checked') === 'true') {
                     handleModeChange('crossing');
+                    event.currentTarget.setAttribute('aria-checked', 'false');
+
+                    if (cross && square) {
+                        cross.classList.add('mode-button__item_active');
+                        square.classList.remove('mode-button__item_active');
+                    }
+                } else {
+                    handleModeChange('coloring');
+                    event.currentTarget.setAttribute('aria-checked', 'true');
+
+                    if (cross && square) {
+                        square.classList.add('mode-button__item_active');
+                        cross.classList.remove('mode-button__item_active');
+                    }
                 }
             });
         }

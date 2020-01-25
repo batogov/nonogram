@@ -3,7 +3,7 @@ import { View } from './view';
 import { Data } from './types';
 
 const element = document.querySelector('#field');
-const formElement = document.querySelector('#form');
+const modeButtonElement = document.querySelector('#mode-button');
 const lifeCounterElement = document.querySelector('#life-counter');
 const endGameElement = document.querySelector('#end-game');
 const victoryElement = document.querySelector('#victory')
@@ -45,7 +45,7 @@ const data = [
     }
 ] as Data;
 
-const view = new View(element, formElement, lifeCounterElement, endGameElement, victoryElement);
+const view = new View(element, modeButtonElement, lifeCounterElement, endGameElement, victoryElement);
 const game = new Game(data, view);
 
 game.init();
