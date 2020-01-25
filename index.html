@@ -10,16 +10,29 @@
 </head>
 
 <body>
-    <div id="end-game" class="end-game end-game_hidden">Out of lives! <button id="restart-button">Restart</button></div>
-    <div id="victory" class="victory victory_hidden">
-        Picture complete! <button id="next-level-button">Next level</button>
-    </div>
-    <div id="life-counter"></div>
-    <div id="field" class="field"></div>
-    <form id="form">
-        <label><input id="coloring" name="mode" type="radio" value="coloring" checked> Coloring</label>
-        <label><input id="crossing" name="mode" type="radio" value="crossing"> Crossing</label>
-    </form>
+    <main>
+        <div class="header">
+            <div id="end-game" class="end-game end-game_hidden">Out of lives! <button
+                    id="restart-button">Restart</button>
+            </div>
+            <div id="victory" class="victory victory_hidden">
+                Picture complete! <button id="next-level-button">Next level</button>
+            </div>
+            <div class="life-counter">
+                <span class="life-counter__item life-counter__item_filled"></span>
+                <span class="life-counter__item life-counter__item_filled"></span>
+                <span class="life-counter__item"></span>
+            </div>
+        </div>
+        <div id="field" class="field"></div>
+        <form id="form" class="form">
+            <button id="mode-button" class="mode-button" role="switch" aria-checked="true">
+                <span class="mode-button__item mode-button__item_cross"></span>
+                <span class="mode-button__item mode-button__item_active mode-button__item_square"></span>
+            </button>
+        </form>
+    </main>
+
     <script src="./src/index.ts"></script>
 </body>
 

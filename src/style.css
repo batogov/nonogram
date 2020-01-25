@@ -1,5 +1,24 @@
+:root {
+    --cell-size: 35px;
+    --seqs-cell-size: 55px;
+    --color: #323b43;
+}
+
 body {
     font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin: 40px auto 0 auto;
+    width: 237px;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .end-game,
@@ -13,13 +32,13 @@ body {
 }
 
 .cell {
-    width: 25px;
-    height: 25px;
+    width: var(--cell-size);
+    height: var(--cell-size);
     background-color: white;
 }
 
 .cell_colored {
-    background-color: black;
+    background-color: var(--color);
 }
 
 .cell_crossed {
@@ -32,24 +51,30 @@ body {
     left: 50%;
     top: 50%;
     content: '✕';
+    color: var(--color);
     transform: translateX(-50%) translateY(-50%);
 }
 
-.vertical-seqs {
+.vertical-seqs,
+.horizontal-seqs {
     display: flex;
+    box-sizing: border-box;
+    background-color: rgb(245, 245, 245);
+}
+
+.vertical-seqs {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    background-color: rgb(245, 245, 245);
+    height: var(--seqs-cell-size);
     padding: 4px 0;
 }
 
 .horizontal-seqs {
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    background-color: rgb(245, 245, 245);
+    width: var(--seqs-cell-size);
     padding: 0 6px;
 }
 
@@ -67,12 +92,76 @@ body {
 }
 
 .field {
-    border: 1px solid black;
-    background: rgb(220, 220, 220);
+    border: 1px solid var(--color);
+    background-color: rgb(220, 220, 220);
     display: grid;
-    grid-template-rows: auto repeat(5, 25px);
-    grid-template-columns: auto repeat(5, 25px);
+    grid-template-rows: auto repeat(5, var(--cell-size));
+    grid-template-columns: auto repeat(5, var(--cell-size));
     width: fit-content;
     row-gap: 1px;
     column-gap: 1px;
+}
+
+.mode-button {
+    display: flex;
+    padding: 0;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid rgb(220, 220, 220);
+    background-color: rgb(245, 245, 245);
+}
+
+.mode-button__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+}
+
+.mode-button__item_active {
+    background-color: white;
+    box-shadow: 2px 2px 4px 0px rgba(50, 50, 50, 0.20);
+    border-radius: 19px;
+}
+
+.mode-button__item_square {
+    background-image: url('./icons/square.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+
+.mode-button__item_cross {
+    background-image: url('./icons/cross.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+
+.life-counter {
+    display: flex;
+}
+
+.life-counter__item {
+    display: block;
+    width: 30px;
+    height: 30px;
+
+    background: url('./icons/heart.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 90%;
+}
+
+.life-counter__item_filled {
+    background: url('./icons/filled_heart.svg') no-repeat;
+    background-position: center center;
+    background-size: 90%;
+}
+
+.form {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }
