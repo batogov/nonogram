@@ -143,7 +143,20 @@ export class View implements BasicView {
         lifeCounter: number,
     }) {
         if (this.lifeCounterElement) {
-            this.lifeCounterElement.textContent = `Lives: ${lifeCounter}`;
+            const items = Array.prototype.slice.call(this.lifeCounterElement.querySelectorAll('.life-counter__item'));
+
+
+            for (let i = 0; i < items.length; i++) {
+                if (!(items[i] instanceof HTMLSpanElement)) {
+                    continue;
+                }
+
+                if (i < lifeCounter) {
+                    items[i].classList.add('life-counter__item_filled');
+                } else {
+                    items[i].classList.remove('life-counter__item_filled');
+                }
+            }
         }
 
         if (this.element) {
