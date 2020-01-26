@@ -26,6 +26,49 @@ main {
     display: block;
 }
 
+.end-game {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.end-game__modal {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    border-radius: 20px;
+    padding: 20px 40px;
+    margin: 20px auto 0 auto;
+    background-color: white;
+}
+
+.end-game__modal h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.end-game__modal img {
+    height: 80px;
+    margin-bottom: 10px;
+}
+
+.end-game__modal button {
+    outline: none;
+    padding: 0;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid rgb(220, 220, 220);
+    background-color: rgb(245, 245, 245);
+    width: 100%;
+}
+
 .end-game_hidden,
 .victory_hidden {
     display: none;
