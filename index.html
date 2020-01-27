@@ -12,9 +12,6 @@
 <body>
     <main>
         <div class="header">
-            <div id="victory" class="victory victory_hidden">
-                Picture complete! <button id="next-level-button">Next level</button>
-            </div>
             <div class="life-counter" id="life-counter">
                 <span class="life-counter__item"></span>
                 <span class="life-counter__item"></span>
@@ -33,6 +30,13 @@
                 <h1>Out of lives!</h1>
                 <img src="src/icons/out_of_lives.svg" />
                 <button id="restart-button">Restart</button>
+            </div>
+        </div>
+        <div id="victory" class="victory victory_hidden">
+            <div class="victory__modal">
+                <h1>Picture complete!</h1>
+                <div id="victory-picture" class="victory__picture"></div>
+                <button id="next-level-button">Next level</button>
             </div>
         </div>
     </main>

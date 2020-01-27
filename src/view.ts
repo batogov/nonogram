@@ -90,14 +90,56 @@ export class View implements BasicView {
         }
     }
 
-    public renderVictoryView(isVictoryViewShown: boolean) {
+    public renderVictoryView(isVictoryViewShown: boolean, picture?: Picture) {
         if (this.victoryElement) {
-            if (isVictoryViewShown) {
+            if (isVictoryViewShown && picture) {
                 this.victoryElement.classList.remove('victory_hidden');
+
+                const pictureElement = this.victoryElement.querySelector('#victory-picture');
+
+                if (pictureElement) {
+                    pictureElement.innerHTML = '';
+                    pictureElement.appendChild(this.getPictureElement({ picture }));
+                }
             } else {
                 this.victoryElement.classList.add('victory_hidden');
             }
         }
+    }
+
+    private getPictureElement({
+        picture,
+        sequencesParams,
+    }: {
+        picture: Picture,
+        sequencesParams?: {
+            state: State,
+            horizontalSequences: Array<number[]>,
+            verticalSequences: Array<number[]>,
+        }
+    }) {
+        const fragment = document.createDocumentFragment();
+
+        if (sequencesParams) {
+            fragment.appendChild(this.getCornerCell());
+            fragment.appendChild(this.getAllVerticalSequencesElement(sequencesParams.verticalSequences, sequencesParams.state));
+        }
+
+        for (let i = 0; i < picture.length; i++) {
+            if (sequencesParams) {
+                fragment.appendChild(this.getHorizontalSequencesElement(i, sequencesParams.horizontalSequences, sequencesParams.state));
+            }
+
+            for (let j = 0; j < picture[0].length; j++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.style.backgroundColor = picture[i][j];
+
+                fragment.appendChild(cell);
+            }
+        }
+
+        return fragment;
     }
 
     public renderPicture({
@@ -113,21 +155,7 @@ export class View implements BasicView {
     }) {
         if (this.element) {
             this.element.innerHTML = '';
-
-            this.element.appendChild(this.getCornerCell());
-            this.element.appendChild(this.getAllVerticalSequencesElement(verticalSequences, state));
-
-            for (let i = 0; i < state.length; i++) {
-                this.element.appendChild(this.getHorizontalSequencesElement(i, horizontalSequences, state));
-
-                for (let j = 0; j < state[0].length; j++) {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    cell.style.backgroundColor = picture[i][j];
-
-                    this.element.appendChild(cell);
-                }
-            }
+            this.element.appendChild(this.getPictureElement({ picture, sequencesParams: { state, horizontalSequences, verticalSequences } }))
         }
     }
 

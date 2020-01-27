@@ -26,7 +26,7 @@ export interface BasicView {
 
     renderEndGame(isEndGameShown: boolean): void;
 
-    renderVictoryView(isVictoryViewShown: boolean): void;
+    renderVictoryView(isVictoryViewShown: boolean, picture?: Picture): void;
 
     initHandlers(params: {
         handleCellClick: (i: number, j: number) => void,

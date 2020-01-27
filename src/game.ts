@@ -117,6 +117,8 @@ export class Game {
         if (this.level + 1 < this.data.length) {
             this.level++;
             this.setLevel(this.level, this.data);
+
+            this.view.renderVictoryView(false);
             this.render();
         }
     }
@@ -161,7 +163,7 @@ export class Game {
         }
 
         if (this.checkWin()) {
-            this.view.renderVictoryView(true);
+            this.view.renderVictoryView(true, this.picture);
             this.renderPicture();
         } else {
             this.render();
