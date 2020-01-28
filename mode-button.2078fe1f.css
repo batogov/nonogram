@@ -1,0 +1,46 @@
+.mode-button {
+    display: flex;
+    outline: none;
+    padding: 0;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid rgb(220, 220, 220);
+    background-color: rgb(245, 245, 245);
+}
+
+.mode-button__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+}
+
+.mode-button__item_active {
+    background-color: white;
+    border-radius: 19px;
+}
+
+.mode-button__item_square {
+    background-image: url('/square.a40f0b4d.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+
+.mode-button__item_square.mode-button__item_active {
+    box-shadow: -2px 2px 6px 0px rgba(50, 50, 50, 0.20);
+}
+
+.mode-button__item_cross {
+    background-image: url('/cross.b0ae3578.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 60%;
+}
+
+.mode-button__item_cross.mode-button__item_active {
+    box-shadow: 2px 2px 6px 0px rgba(50, 50, 50, 0.20);
+}
+
+/*# sourceMappingURL=/mode-button.2078fe1f.css.map */

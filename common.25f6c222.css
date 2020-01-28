@@ -1,0 +1,122 @@
+:root {
+    --cell-size: 35px;
+    --seqs-cell-size: 55px;
+    --color: #323b43;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin: 40px auto 0 auto;
+    width: 237px;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: white;
+}
+
+.cell_colored {
+    background-color: var(--color);
+}
+
+.cell_crossed {
+    position: relative;
+    background-color: rgb(235, 235, 235);
+}
+
+.cell_crossed:after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    content: '✕';
+    color: var(--color);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.vertical-seqs,
+.horizontal-seqs {
+    display: flex;
+    box-sizing: border-box;
+    background-color: rgb(245, 245, 245);
+}
+
+.vertical-seqs {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: var(--seqs-cell-size);
+    padding: 4px 0;
+}
+
+.horizontal-seqs {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: var(--seqs-cell-size);
+    padding: 0 6px;
+}
+
+.vertical-seqs_done,
+.horizontal-seqs_done {
+    color: rgb(165, 165, 165);
+}
+
+.horizontal-seqs__item:not(:last-child) {
+    padding-right: 4px;
+}
+
+.corner-cell {
+    background-color: rgb(245, 245, 245);
+}
+
+.field {
+    border: 1px solid var(--color);
+    background-color: rgb(220, 220, 220);
+    display: grid;
+    grid-template-rows: auto repeat(5, var(--cell-size));
+    grid-template-columns: auto repeat(5, var(--cell-size));
+    width: fit-content;
+    row-gap: 1px;
+    column-gap: 1px;
+}
+
+.life-counter {
+    display: flex;
+}
+
+.life-counter__item {
+    display: block;
+    width: 30px;
+    height: 30px;
+
+    background: url('/heart.afaa7549.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 90%;
+}
+
+.life-counter__item_filled {
+    background: url('/filled_heart.766fa148.svg') no-repeat;
+    background-position: center center;
+    background-size: 90%;
+}
+
+.footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/*# sourceMappingURL=/common.25f6c222.css.map */
